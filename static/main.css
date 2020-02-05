@@ -1,0 +1,55 @@
+html {
+  min-height: 100%;
+  position: relative;
+  min-width: 400px;
+}
+body {
+  margin: 0;
+  height: 100%;
+  color: #ffffff;
+  background-color: black;
+  font-family: monospace;
+}
+.bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  z-index: -1;
+  background-color: lawngreen;
+  /* background-image: url("{{ url_for('static', filename='images/botground.jpg') }}"); */
+  background-image: url("botground.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  max-width: 550px;
+  min-width: 400px;
+  margin: 0 auto;
+}
+.ux {
+  position: absolute;
+  width: 400px;
+  background: #063;
+  bottom: 0px;
+  right: 25%;
+  left: 50%;
+  margin-left: -200px;
+}
+input {
+  width: 393px;
+  padding: 0.1em;
+  font-size: 1em;
+}
+.chatlog {
+  width: 400px;
+  padding: 0.1em;
+  height: 100px;
+  overflow: auto;
+}
+p {
+  margin: 0.1em;
+}
+.notbot {
+  color: yellow;
+}

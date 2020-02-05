@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ScottBot</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link name="author" content="Craig" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+  </head>
+  <body>
+    <div class="bg"></div>
+    <div class="ux">
+      <form id="inputForm">
+        <input type="text" id="userInput" name="userInput" autofocus />
+        <input type="submit" style="display:none" />
+      </form>
+      <div id="chatlog" class="chatlog"></div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function() {
+        $.get("/greet", function(data) {
+          greet(data.response);
+        });
+      });
+
+      $("#inputForm").submit(function(e) {
+        e.preventDefault();
+        userInput = $("#userInput").val();
+        $("#userInput").val("");
+        $.get("/chatbot", { user_input: userInput }, function(data) {
+          data = JSON.parse(data);
+          appendLog(userInput, data);
+          appendChatLog(userInput, data.response);
+        });
+      });
+
+      function appendLog(userInput, response) {
+        console.log("");
+        console.log("user_input: " + userInput);
+        console.log("n: " + response.n);
+        console.log("context: " + response.context);
+        console.log("response: " + response.response);
+        console.log("source: " + response.source);
+        console.log("");
+      }
+
+      function appendChatLog(userInput, botReply) {
+        $("#chatlog").append('<p class="notbot">You: ' + userInput + "</p>");
+        $("#chatlog").append('<p class="bot">ScottBot: ' + botReply + "</p>");
+        $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+      }
+
+      function greet(botReply) {
+        $("#chatlog").append('<p class="bot">ScottBot: ' + botReply + "</p>");
+      }
+    </script>
+  </body>
+</html>
