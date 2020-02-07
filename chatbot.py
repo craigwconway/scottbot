@@ -20,14 +20,17 @@ nltk.download('wordnet')
 
 NAME = "ScottBot"
 DEFAULT = "I am " + NAME
+INTRO = "I communicate with lines from my favorite movies and music."
 HI = ("Hello", "Hi", "Greetings Program", "Sup",
       "What's up", "Hey", "Yo", "Hey dude", DEFAULT)
 BYE = ['Bye', 'Goodbye', 'Later', 'L8R', 'Peace', 'See ya', 'cya']
 THX = ['Thanks', 'Thank you', 'thx']
 YW = ["You're welcome", "Whatever", "Sure", "yw"]
-IDK = ["Huh?",  "What?", "Um...ok", "Uhhhhh...", DEFAULT]
-QUESTION = ['who', 'what', 'when', 'where', 'why', 'how']
-ANSWER = ["Yes", "No", "Maybe", "Why?", "Sure", DEFAULT,
+IDK = ["Huh?",  "What?", "Um...ok", "Uhhhhh...", DEFAULT, INTRO]
+QUESTION = ['who', 'what', 'when', 'where',
+            'why', 'how', 'can', 'could', 'would', 'will']
+ANSWER = ["Yes", "No", "Maybe", "Why?", "Sure", DEFAULT, INTRO,
+          "You'll figure it out ;)",
           "Don't ask these stupid questions, we're stuck, just send down the bucket. Come on."]
 RE01 = re.compile("\t\t[A-Z]+")
 RE02 = re.compile("\t\t\t[A-Z]+")
@@ -37,13 +40,11 @@ RE05 = re.compile("                        [A-Z]+")
 MOVIE_SOURCES = [
     ("https://sfy.ru/?script=rushmore", RE03),
     ("https://sfy.ru/?script=pulp_fiction", RE05),
-    ("https://sfy.ru/?script=natural_born_killers_fs", RE01),
     ("https://sfy.ru/?script=matrix_ds", RE01),
-    ("https://sfy.ru/?script=lost_highway", ),
+    ("https://sfy.ru/?script=lost_highway", RE02),
     ("https://sfy.ru/?script=graduate", RE01),
     ("https://sfy.ru/?script=ferris_bueller", RE01),
     ("https://sfy.ru/?script=fear_and_loathing", RE01),
-    ("https://sfy.ru/?script=fargo", RE01),
     ("https://sfy.ru/?script=dune", RE01),
     ("https://sfy.ru/?script=clerks", RE02),
     ("https://sfy.ru/?script=breakfast_club", RE01),
@@ -176,7 +177,7 @@ class ScottBot():
         return self.bot_response(user_input, self.wrap_response(random.choice(IDK)))
 
     def greet(self):
-        return self.wrap_response(random.choice(HI))
+        return self.wrap_response(random.choice(HI) + ". " + INTRO + " Let's chat!")
 
     def wrap_response(self, response):
         r = {}

@@ -26,6 +26,8 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      PROCESSING = '<p class="bot">ScottBot: ...</p>';
+
       $(document).ready(function() {
         $.get("/greet", function(data) {
           greet(data.response);
@@ -35,13 +37,27 @@
       $("#inputForm").submit(function(e) {
         e.preventDefault();
         userInput = $("#userInput").val();
-        $("#userInput").val("");
+        resetInput();
+        $("#chatlog").append(PROCESSING);
+        $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
         $.get("/chatbot", { user_input: userInput }, function(data) {
           data = JSON.parse(data);
+          $("#chatlog p:last").remove(); // remove processing
+          $("#chatlog").append(
+            '<p class="bot">ScottBot: ' + data.response + "</p>"
+          );
+          $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
           appendLog(userInput, data);
-          appendChatLog(userInput, data.response);
         });
       });
+
+      function resetInput() {
+        $("#chatlog").append(
+          '<p class="notbot">You: ' + $("#userInput").val() + "</p>"
+        );
+        $("#userInput").val("");
+        $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+      }
 
       function appendLog(userInput, response) {
         console.log("");
@@ -51,12 +67,6 @@
         console.log("response: " + response.response);
         console.log("source: " + response.source);
         console.log("");
-      }
-
-      function appendChatLog(userInput, botReply) {
-        $("#chatlog").append('<p class="notbot">You: ' + userInput + "</p>");
-        $("#chatlog").append('<p class="bot">ScottBot: ' + botReply + "</p>");
-        $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
       }
 
       function greet(botReply) {
